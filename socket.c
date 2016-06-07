@@ -11,22 +11,21 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-int main(int argc, char *argv[])
+int main()
 {
     struct addrinfo hints, *res, *p;
-    int status,count;
+    int status,sockfd;
     char ipstr[INET6_ADDRSTRLEN];
-    if (argc != 2) {
-        fprintf(stderr,"usage: showip hostname\n");
-        return 1;
-                    }
+    
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC; // AF_INET or AF_INET6 to force version
     hints.ai_socktype = SOCK_STREAM;
-    if ((status = getaddrinfo(argv[1], NULL, &hints, &res)) != 0) {
+    if ((status = getaddrinfo(NULL, "3490", &hints, &res)) != 0) {
             fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
             return 2;
         }
 
     //socket description
-s = socket(res->ai.family,res->ai.socktype,res->ai.protocol);
+sockfd = socket(res->ai_family,res->ai_socktype,res->ai_protocol);
+    //socket bind method example
+bind(sockfd,res->ai_addr,res->ai_addrlen);
