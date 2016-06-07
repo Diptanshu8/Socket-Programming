@@ -13,7 +13,7 @@
 int main(int argc, char *argv[])
 {
     struct addrinfo hints, *res, *p;
-    int status;
+    int status,count;
     char ipstr[INET6_ADDRSTRLEN];
     if (argc != 2) {
         fprintf(stderr,"usage: showip hostname\n");
@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
         }
 
     printf("IP addresses for %s:\n\n", argv[1]);
+    count=0;
     for(p = res;p != NULL; p = p->ai_next) {
     void *addr;
     char *ipver;
@@ -47,7 +48,9 @@ int main(int argc, char *argv[])
      // convert the IP to a string and print it:
           inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);
           printf("  %s: %s\n", ipver, ipstr);
-                  }
+        count++;              
+    }
+    printf("Count == %d",count);
      freeaddrinfo(res); // free the linked list
      return 0;
 }
